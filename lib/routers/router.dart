@@ -1,29 +1,35 @@
 import 'package:flutter/material.dart';
-import '../pages/Activity.dart';
-import '../pages/Commun.dart';
-import '../pages/Home.dart';
-import '../pages/Issue.dart';
-import '../pages/Tab.dart';
-import '../pages/User.dart';
+import 'package:lovenote/pages/home/mine.dart';
+import 'package:lovenote/pages/home/moving.dart';
+import '../pages/tabs/Activity.dart';
+import '../pages/tabs/Home.dart';
+import '../pages/tabs/Commun.dart';
+import '../pages/tabs/Message.dart';
+import '../pages/tabs/Tab.dart';
+import '../pages/tabs/User.dart';
 
-
-
+//Message 
+import '../pages/message/messagedetail.dart';
 final routes = {
   '/': (context) => Tabs(), 
-
+  
   //home
   '/home':(context) => HomePage(),
-
+  '/moving':(context) => MovingPage(),
+  '/mine':(context) => MinePage(),
   //活动
   '/activity':(context) => ActivityPage(),
-  //发布
-  '/issue':(context) => IssuePage(),
+
+  //消息
+  '/message':(context) => MessagePage(),
+  '/messageDetail':(context) => MessageDetailPage(),
 
   //社区
   '/commun':(context) => CommunPage(),
 
   //我的
   '/user':(context) => UserPage()
+  
 
 };
 
