@@ -8,10 +8,6 @@ class MessageCommentPage extends StatefulWidget {
   _MessageCommentPageState createState() => _MessageCommentPageState();
 }
 
-
-
-
-
 Widget _userDetailWidget(){
   return  Container(
     height: ScreenAdaper.height(100),

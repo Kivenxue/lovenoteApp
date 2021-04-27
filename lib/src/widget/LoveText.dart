@@ -4,38 +4,48 @@ import '../services/ScreenAdaper.dart';
 
 class LoveText extends StatelessWidget {
 
+  TextEditingController _userSendInputController = TextEditingController();
+  FocusNode _userSendInputNode = FocusNode();
+
+
   final String text;
-  final bool password;
   final Object onChanged;
   final Object onSubmitted;
-  final int maxLines;
-  final double height;
-  final TextEditingController controller;
-
-  LoveText({Key key,this.text="输入内容",this.password=false,this.onChanged=null,this.onSubmitted=null,this.maxLines=1,this.height=68,this.controller=null}) : super(key: key);
+  OutlineInputBorder _outlineInputBorder = OutlineInputBorder(
+    gapPadding: 0,
+    borderRadius:BorderRadius.circular(40),
+    borderSide: BorderSide(
+      color: Colors.grey[200],
+    ),
+  );
+  LoveText({Key key,
+  this.text="输入内容",
+  this.onChanged=null,
+  this.onSubmitted=null,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {  
   return TextField(
-            cursorColor: Colors.grey,
-            controller:controller,
-            maxLines: this.maxLines ,
-            obscureText: this.password,
-            decoration: InputDecoration(
-                focusColor: Colors.white,
-                hoverColor: Colors.white,
-                fillColor: Colors.grey,
-                filled: true,
-                contentPadding: EdgeInsets.fromLTRB(0, -5, 0, 30),
-                hintText:this.text,
-                prefixIcon:Icon(Icons.drive_file_rename_outline,color: Colors.blueGrey,),
-                // icon: Icon(Icons.drive_file_rename_outline,color: Colors.blueGrey,),
-                  border: OutlineInputBorder(
-                    borderRadius:BorderRadius.circular(40),
-                  )
-                ),
-            onChanged: this.onChanged,
-            onSubmitted: this.onSubmitted,
+        cursorColor: Colors.black54,
+        controller:_userSendInputController,
+        focusNode: _userSendInputNode,
+        keyboardType: TextInputType.multiline,
+        maxLines: null,
+        autofocus: true,
+        decoration: InputDecoration(
+            hintText:"请输入...",
+            fillColor: Colors.white,
+            filled: true,
+            enabledBorder:_outlineInputBorder,
+            focusedBorder:_outlineInputBorder,
+            contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10)
+            ),
+        onChanged: (text){
+          print("");
+        },
+
+        onSubmitted: this.onSubmitted,
       );
  
     }

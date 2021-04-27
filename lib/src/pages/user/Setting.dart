@@ -71,7 +71,13 @@ class _SettingPageWidgetState extends State<SettingPageWidget> {
         trailing: Icon(Icons.chevron_right),
         ),
       ),
-       
+
+      Card(
+        child: ListTile(
+        title:Text("推介好友使用",style: TextStyle(fontSize: 15)),
+        trailing: Icon(Icons.keyboard_arrow_right_outlined),
+        ),
+      ),
 
       Card(
         child: ListTile(

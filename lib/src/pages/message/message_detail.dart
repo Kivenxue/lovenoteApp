@@ -41,6 +41,7 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
       ),
       body: Stack(
         children: [
+        //  buildBackground(),
          InkWell(
            child:  Container(
             child:  ListView.builder(
@@ -48,7 +49,7 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
             itemCount: this.messageList.length,
             itemBuilder: (context,index){
               return ListTile(
-
+                
               );
             },
           ),
@@ -68,33 +69,61 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
               width: ScreenAdaper.width(750),
               child: Column(
                 children: <Widget>[
-                  Row(children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: LoveText(),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(ScreenAdaper.width(20)),
-                      child:  Container(
-                        width: ScreenAdaper.width(68),
-                        height: ScreenAdaper.height(68),
-                        decoration: BoxDecoration(
-                          color:Colors.black12,
-                          borderRadius: BorderRadius.circular(
-                            ScreenAdaper.width(68)
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      children: <Widget>[
+                      //麦克风
+                      Container(
+                        width: 50,
+                        child: Icon(Icons.mic),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: LoveText(),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(ScreenAdaper.width(20)),
+                        child:  Container(
+                          // width: ScreenAdaper.width(68),
+                          // height: ScreenAdaper.height(68),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              ScreenAdaper.width(68)
+                            )
+                          ),
+                          child: InkWell(
+                            child: Icon(Icons.emoji_emotions_outlined),
+                            onTap: () {
+                              setState(() {
+                                this.showPhotoAction = !this.showPhotoAction;
+                              });
+                            },
                           )
-                        ),
-                        child: InkWell(
-                          child: Icon(Icons.add),
-                          onTap: () {
-                            setState(() {
-                              this.showPhotoAction = !this.showPhotoAction;
-                            });
-                          },
                         )
-                      )
-                    )
-                  ],
+                      ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                        child:Container(
+                          // width: ScreenAdaper.width(68),
+                          // height: ScreenAdaper.height(68),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              ScreenAdaper.width(68)
+                            )
+                          ),
+                          child: InkWell(
+                            child: Icon(Icons.add),
+                            onTap: () {
+                              setState(() {
+                                this.showPhotoAction = !this.showPhotoAction;
+                              });
+                            },
+                          )
+                        )
+                      ),
+                    ],
+                  ),
                   ),
                   this.showPhotoAction?Row(
                     children: <Widget>[
@@ -103,7 +132,7 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
                         child: IconButton(
                           icon: Icon(Icons.photo_camera),
                           onPressed: (){
-
+                              
                           },
                         ),
                       ),
@@ -128,4 +157,10 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
       ),
     );
   }
+
+
+  
 }
+
+
+

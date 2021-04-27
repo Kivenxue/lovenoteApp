@@ -5,12 +5,13 @@ import '../tabs/Message.dart';
 //引入 首页 
 import 'Home.dart';
 //引入活动页
-import 'Activity.dart'; 
+// import 'Activity.dart'; 
 //引入 社区页
 import 'Commun.dart';
 //引入 用户
 import 'Message.dart';
 import 'User.dart';
+import 'Love.dart';
 
 
 
@@ -24,11 +25,12 @@ class _TabsState extends State<Tabs> {
     // var _currentIndex = 0;
     List<NavigationIconView> _navigationIconView;
     // ignore: non_constant_identifier_names
-    List bottom_titles = ["我们", "活动", "消息","社区", "我"];
+    List bottom_titles = ["我们", "恋爱", "消息","社区", "我"];
     // ignore: non_constant_identifier_names
     List bottom_icons = [
       "assets/icon/tab/home.png",
-      "assets/icon/tab/activity.png",
+      // "assets/icon/tab/activity.png",
+      "assets/icon/tab/pair.png",
       "assets/icon/tab/message.png",
       "assets/icon/tab/comm.png",
       "assets/icon/tab/me.png",
@@ -36,7 +38,8 @@ class _TabsState extends State<Tabs> {
     // ignore: non_constant_identifier_names
     List bottom_select_icons = [
       "assets/icon/tab/home_check.png",
-      "assets/icon/tab/activity_check.png",
+      // "assets/icon/tab/activity_check.png",
+      "assets/icon/tab/pair_check.png",
       "assets/icon/tab/message_check.png",
       "assets/icon/tab/comm_check.png",
       "assets/icon/tab/me_check.png",
@@ -49,11 +52,12 @@ class _TabsState extends State<Tabs> {
    
     List<Widget>  _pageList=[
       HomePage(),
-      ActivityPage(),
+      LovePageWidget(),   
+      // ActivityPage(),
       MessagePage(),
       CommunPage(),
-      UserPage()
-    ];
+      UserPage(),
+];
 
 
 

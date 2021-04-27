@@ -19,6 +19,8 @@ class _MessagePageState extends State<MessagePage> with AutomaticKeepAliveClient
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true; 
   
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,6 +139,14 @@ Widget _staticSearchInput(){
         )
       ),
     ),
+    splashColor: Colors.grey[200],
+    onTapDown: (TapDownDetails details){
+       _globalPositionX = details.globalPosition.dx;
+       _globalPositionY = details.globalPosition.dy;
+    },
+    onLongPress: () {
+        _showPopupMenu(context);
+    },
     onTap: (){
       Navigator.push(context,MaterialPageRoute(builder: (context) => new MessageDetailPage()));
     },
@@ -145,5 +155,31 @@ Widget _staticSearchInput(){
 
 }
 
+double _globalPositionX = 0.0; //长按位置的横坐标
+double _globalPositionY = 0.0; 
 
+void _showPopupMenu(BuildContext context) {
+     // 确定点击位置在左侧还是右侧
+    bool isLeft = _globalPositionX > MediaQuery.of(context).size.width/2 ? false : true;
+    // 确定点击位置在上半屏幕还是下半屏幕
+    bool isTop = _globalPositionY > MediaQuery.of(context).size.height/2 ? false : true;
+ 
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Stack(
+          children: <Widget>[
+            Positioned(
+              top: isTop ? _globalPositionY : _globalPositionY - 200.0,
+              left: isLeft ? _globalPositionX : _globalPositionX - 120.0,
+              width: 120.0,
+              child: Container(
+                child: Text("测试"),
+              )
+            )
+          ],
+        );
+      }
+    );
+}
 

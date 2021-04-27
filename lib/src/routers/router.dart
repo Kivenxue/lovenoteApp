@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:lovenote/src/pages/home/mine.dart';
 import 'package:lovenote/src/pages/home/moving.dart';
@@ -5,7 +6,10 @@ import 'package:lovenote/src/pages/message/addFriend.dart';
 import 'package:lovenote/src/pages/user/Setting.dart';
 import 'package:lovenote/src/runapp/index_page.dart';
 import 'package:lovenote/src/runapp/splansh_screen.dart';
-// import 'package:lovenote/src/runapp/index_page.dart';
+import 'package:lovenote/src/pages/love/love_daily.dart';
+import 'package:lovenote/src/pages/love/love_pair.dart';// 
+
+// 
 import '../pages/tabs/Activity.dart';
 import '../pages/tabs/Home.dart';
 import '../pages/tabs/Commun.dart';
@@ -30,6 +34,10 @@ final routes = {
   '/home':(context) => HomePage(),
   '/moving':(context) => MovingPage(),
   '/mine':(context) => MinePage(),
+
+  //恋爱
+  '/loveDaily':(context) => LoveDailyPageWidget(),
+  '/lovePair':(context) => LovePairPageWidget(),
   //活动
   '/activity':(context) => ActivityPage(),
 
@@ -55,8 +63,10 @@ final routes = {
   //启动页
   '/index':(context) => IndexPage(),
   '/splash' :(context)=>SplashScreen()
+  
+  };
 
-};
+
 
 
 //固定写法

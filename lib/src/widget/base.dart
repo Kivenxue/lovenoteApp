@@ -1,13 +1,11 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:lovenote/src/pages/user/Setting.dart';
 import 'package:lovenote/src/pages/user/total/user_info.dart';
 import 'package:lovenote/src/services/ScreenAdaper.dart';
 
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-
-
 class UserPage extends StatefulWidget {
-  UserPage({Key key}) : super(key: key);
   @override
   _UserPageState createState() => _UserPageState();
 }
@@ -221,109 +219,33 @@ _UserListDataWidget(BuildContext context){
 // _UserListDataWidget(){}
 
 class _UserPageState extends State<UserPage> with AutomaticKeepAliveClientMixin{
-  
-  PanelController panel = new PanelController();
-  double offsetDistance = 0.0;
-  double offsetY = 0;
-  double maxHeight = 810; //最大展开高度
-  double minHeight = 550; //最小收缩高度
-  bool isTageHeight = true;
+ 
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true; 
 
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
-       
-        body:Container(
-  
-        child: Center(
-            child: SlidingUpPanel(
-              controller: panel,
-              minHeight: minHeight,
-              maxHeight: maxHeight,
-              parallaxEnabled: true,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(5.0),
-                topRight: Radius.circular(5.0),
-              ),
-              body: GestureDetector(
-                child:Stack(
-                  children: [
-                    ConstrainedBox(
-                      constraints: BoxConstraints.expand(),
-                      child: new Image.asset(
-                      "assets/images/top3.jpg",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                   Positioned(
-                     bottom: 0,
-                     child:Container(
-                      padding: EdgeInsets.only(top:10),
-                      // color: Color.fromRGBO(255, 255, 255, .5),
-                      height: 705,
-                      width: 1334,
-                      child: ListTile(
-                        leading:Container(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child:Image.asset("assets/images/avatar.jpg",
-                            fit: BoxFit.cover),
-                          ),
-                        ),
-                        title: Text("无力", style: TextStyle(color: Colors.white54),),
-                        subtitle: Text(
-                          "个性签名",
-                          style: TextStyle(color: Colors.black45),
-                        ),
-                      )
-                    ),
-                   )
-                  ],
-                ),
-                onTap: (){
-                  panel.close();
-                  Navigator.push(context,   MaterialPageRoute(builder: (context) => new UserInfoPageWidget()));
-                },
-                
-                onVerticalDragDown: (details) {
-                  // print(details.globalPosition.dy);
-                  offsetDistance = details.globalPosition.dy;
-                },
-                onVerticalDragUpdate: (details) {
-                  offsetY = details.globalPosition.dy - offsetDistance;
-                  if (offsetY > 0) {
-                    print("向下" + offsetY.toString());
-                  } else {
-                    print("向上" + offsetY.toString());
-                    double position = offsetY.abs() / 300;
-                    position = position > 1 ? 1 : position;
-                    panel.setPanelPosition(position);
-                    if (position > 0.4) {
-                      panel.open();
-                    }
-                  }
-                },
-              ),
-              
-              panel: Column(
-                children: <Widget>[
-                 _UserGridWidget(),
-                 _UserListDataWidget(context)
-                ],
-              )
-            ),
-          )
-      )
-     );
+    return Scaffold(
+      // appBar: PreferredSize(
+      //     child: AppBar(
+      //     backgroundColor: Colors.pinkAccent,
+      //   ),
+      //   preferredSize: Size.fromHeight(ScreenAdaper.height(35)),
+      // ),
+      body:Stack(
+        children: [
+          Column(
+            children: <Widget>[
 
+              _UserInfoWidget(context),
+              _UserGridWidget(),
+              _UserListDataWidget(context)
+            ],
+
+          )
+        ],
+      )
+    );
   }
 }
-
-
-
-//  _UserInfoWidget(context),
-//   _UserGridWidget(),
-//   _UserListDataWidget(context)
