@@ -80,6 +80,7 @@ class _TabsState extends State<Tabs> {
         body:PageView(
           controller: this._pageController,
           children: this._pageList,
+          physics: NeverScrollableScrollPhysics(),
           onPageChanged: (index){
             setState(() {
                this._currentIndex = index;

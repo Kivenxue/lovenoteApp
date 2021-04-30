@@ -11,6 +11,7 @@ class LoveText extends StatelessWidget {
   final String text;
   final Object onChanged;
   final Object onSubmitted;
+
   OutlineInputBorder _outlineInputBorder = OutlineInputBorder(
     gapPadding: 0,
     borderRadius:BorderRadius.circular(40),
@@ -41,10 +42,12 @@ class LoveText extends StatelessWidget {
             focusedBorder:_outlineInputBorder,
             contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10)
             ),
+
+      
         onChanged: (text){
           print("");
         },
-
+        
         onSubmitted: this.onSubmitted,
       );
  

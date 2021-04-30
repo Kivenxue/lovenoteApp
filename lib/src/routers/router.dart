@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lovenote/src/pages/home/mine.dart';
 import 'package:lovenote/src/pages/home/moving.dart';
 import 'package:lovenote/src/pages/message/addFriend.dart';
+import 'package:lovenote/src/pages/user/SecondRegister.dart';
 import 'package:lovenote/src/pages/user/Setting.dart';
 import 'package:lovenote/src/runapp/index_page.dart';
 import 'package:lovenote/src/runapp/splansh_screen.dart';
@@ -56,7 +57,7 @@ final routes = {
   '/setting':(context) => SettingPageWidget(),
   '/login':(context) => LoginPageWidget(),
   '/register':(context) => RegisterPageWidget(),
-
+  '/secondRegister':(context) => SecondRegister(),
 
 
 

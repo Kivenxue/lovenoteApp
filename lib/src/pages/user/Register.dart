@@ -1,22 +1,76 @@
 import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:shake_animation_widget/shake_animation_widget.dart';
+import 'package:jverify/jverify.dart';
+import 'package:lovenote/src/services/ScreenAdaper.dart';
+
 
 class RegisterPageWidget extends StatefulWidget {
+
+  RegisterPageWidget({Key key}) : super(key: key);
+
   @override
   _RegisterPageWidgetState createState() => _RegisterPageWidgetState();
 }
 
 class _RegisterPageWidgetState extends State<RegisterPageWidget> {
-  FocusNode _userPhoneFocusNode = new FocusNode();
-  FocusNode _userCheckCodeFocusNode = new FocusNode();
+
+  //实例化极光验证的插件
+  Jverify jverify = new Jverify();
+
+  //是否支持验证
+  bool _supportJverify = true;
+
+  //是否显示圈圈
+  bool _loading = false;
+
+  //返回的结果
+  String _result = "";
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //初始化插件
+    this._initJverify();
+
+    //检测网络是否支持
+    this._checkVerifyEnable();
+  }
+
+
+  //初始化插件的方法
+  void _initJverify() {
+    jverify.setDebugMode(true); // 打开调试模式
+    jverify.setup(
+        appKey: "85429874008ad3da77142b9b",
+        channel: "devloper-default"); // 初始化sdk,  appKey 和 channel 只对ios设置有效
+  }
+
+  //判断当前的手机网络环境是否可以使用认证
+  void _checkVerifyEnable() {
+    jverify.checkVerifyEnable().then((map) {
+      bool result = map["result"];
+      if (result) {
+        print("当前网络环境支持认证");
+        this.setState(() {
+          this._supportJverify = true;
+        });
+      } else {
+        print("当前网络环境不支持认证");
+        this.setState(() {
+          this._supportJverify = false;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        hindInputFouce();
       },
       child:Scaffold(
       appBar: AppBar(
@@ -43,21 +97,39 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
     return Container(
       width: double.infinity,
       child: Column(
-      children: [
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
         //Logo
-        buildUserPhoneWidget(),
+        //---------- 本机号一键登录
         SizedBox(height:10),
-        buildCheckCodeWidget(),
-        SizedBox(height:10),
-        buildCheckCodeButton(),
+        _supportJverify?
+        // buildLocalAccountButton(),
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.black54)
+          ),
+          child: Text('一键授权登录'),
+          onPressed: () {
+            // this.loginAuth();
+          },
+        ):ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.black54)
+          ),
+          child: Text('普通登录'),
+          onPressed: () {
+            print("普通登录");
+          },
+        ),
 
         Container(
           margin: EdgeInsets.fromLTRB(28, 5,28, 10),
           child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment:MainAxisAlignment.center,
           children: [ 
               Text(
-                "收不到验证码?",
+                "其他方式登录",
                 style: TextStyle(
                   fontSize: 15,
                   color:  Colors.pinkAccent
@@ -72,157 +144,10 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
   }
 
 
-StreamController<String> _userPhoneStreamController = new StreamController();
-StreamController<String> _userCheckCodeStreamController = new StreamController();
-
-//获取用户输入
-TextEditingController _userPhoneTextController = TextEditingController();
-TextEditingController _userCheckCodeController = TextEditingController();
-//抖动控制器
-ShakeAnimationController _userPhoneShakeController = ShakeAnimationController();
-ShakeAnimationController _userCheckCodeShakeController = ShakeAnimationController();
-
- OutlineInputBorder _outlineInputBorder = OutlineInputBorder(
-    gapPadding: 0,
-    borderSide: BorderSide(
-      color: Colors.grey,
-    ),
-  );
-
-Widget buildCheckCodeWidget(){
-  return Padding(
-    padding: EdgeInsets.fromLTRB(28, 5, 28, 5),
-    child: Row(
-    children: [
-       Expanded(
-        child: TextField(
-          keyboardType: TextInputType.number,
-          controller: _userCheckCodeController,
-          focusNode: _userCheckCodeFocusNode,
-          maxLength: 6,
-          minLines: 1,
-          style: TextStyle(fontSize: 16,color: Colors.black87),
-          // maxLength: null,
-          onChanged: (text){
-          },
-          decoration: InputDecoration(
-            fillColor: Colors.grey[50],
-            filled: true,
-            isCollapsed: true,
-            counterText:"",
-            hintText: "请输入验证码",
-            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            border: _outlineInputBorder,
-            focusedBorder: _outlineInputBorder,
-            enabledBorder: _outlineInputBorder,
-            disabledBorder: _outlineInputBorder,
-            focusedErrorBorder: _outlineInputBorder,
-            errorBorder: _outlineInputBorder,
-          )
-        ),
-        flex: 1,
-      ),
-      SizedBox(width: 10),
-      ElevatedButton(
-        style: ButtonStyle(
-         backgroundColor: MaterialStateProperty.all(Colors.black54)        
-        ),
-        child: Container(
-          padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
-          child: Text("验证码(5)"),
-        ),
-        onPressed: (){
-
-        },       
-      )
-    ],
-   ),
-
-  );
-}
-bool checkCodePhone(){
-  String checkCode = _userCheckCodeController.text;
-  if(checkCode.length == 0){
-    _userCheckCodeStreamController.add("请输入验证码");
-    //输入抖动
-    _userCheckCodeShakeController.start();
-    return false;
-  }else{
-    _userCheckCodeStreamController.add(null);
-    return true;
-  }
-}
 
 
 
-
-
-
-
-
-Widget buildUserPhoneWidget(){
-  return Container(
-    margin: EdgeInsets.fromLTRB(28, 10,28, 10),
-    child:  StreamBuilder<String>(
-    stream: _userPhoneStreamController.stream,
-    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-      return ShakeAnimationWidget(
-        shakeAnimationType: ShakeAnimationType.LeftRightShake,
-        isForward: false,
-        shakeCount: 0,
-        shakeRange: 0.2,
-        shakeAnimationController: _userPhoneShakeController,
-        child:TextField(
-        
-        controller: _userPhoneTextController,
-        focusNode: _userPhoneFocusNode,
-        decoration: InputDecoration(
-          focusColor: Colors.grey,
-          focusedBorder: _outlineInputBorder,
-          errorText: snapshot.data,
-          labelText: "+86",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10))
-          )
-        ),
-
-        onSubmitted: (String value){
-          if(checkUserPhone()){
-            _userCheckCodeFocusNode.unfocus();
-          }else{
-            FocusScope.of(context).requestFocus(_userPhoneFocusNode);
-          }
-        },
-      )
-      
-       
-      );
-
-    },)
-  );
-}
-
-  bool checkUserPhone(){
-    String phone = _userPhoneTextController.text;
-    if(phone.length == 0){
-      _userPhoneStreamController.add("请输入用户名");
-      //输入抖动
-      _userPhoneShakeController.start();
-      return false;
-    }else{
-      _userPhoneStreamController.add(null);
-      return true;
-    }
-  }
-  //隐藏输入
-  void hindInputFouce(){
-    SystemChannels.textInput.invokeMapMethod('TextInput.hide');
-    _userPhoneFocusNode.unfocus();
-    _userCheckCodeFocusNode.unfocus();
-  }
-  
-
-  Widget buildCheckCodeButton(){
+  Widget buildLocalAccountButton(){
     return Container(
       margin: EdgeInsets.fromLTRB(28, 5,28, 10),
       width: double.infinity,
@@ -235,22 +160,13 @@ Widget buildUserPhoneWidget(){
         onPressed: (){
           // CheckCodeButtonFuntion();
         },
-        child: Text("下一步"),
+        child: Text("本机号码一键授权登录"),
       ),
     );
   }
+
+
+
+ 
 }
 
-// void CheckCodeButtonFuntion(
-//   // hindInputFuce();
-
-//   // bool checkUserName() =  checkUserName() ;
-
-//   // bool checkPassword() = checkPassword();
-
-//   if(checkPasswordB&&checkUserB){
-    
-//   }
-
-
-// )

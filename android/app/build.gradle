@@ -34,11 +34,19 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.lovenote"
-        minSdkVersion 16
-        targetSdkVersion 30
+        applicationId "com.example.lovenote"       
+        minSdkVersion 17
+        targetSdkVersion 27
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        ndk {           
+            abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'x86_64', 'mips', 'mips64', 'arm64-v8a'
+        }
+        manifestPlaceholders = [
+            JPUSH_PKGNAME : applicationId,
+            JPUSH_APPKEY : "85429874008ad3da77142b9b",
+            JPUSH_CHANNEL : "developer-default", 
+        ] 
     }
 
     buildTypes {
@@ -47,6 +55,7 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
+
     }
 }
 

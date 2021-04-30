@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import '../services/ScreenAdaper.dart';
 
 class SearchInputWidget extends StatelessWidget {
@@ -9,44 +10,41 @@ class SearchInputWidget extends StatelessWidget {
   TextEditingController _controller = TextEditingController();
 
   final String text;
-  final Object onChanged;
-  final Object onSubmitted;
+  int maxLines;
+  int maxCunt;
+
   OutlineInputBorder _outlineInputBorder = OutlineInputBorder(
     gapPadding: 0,
-    borderSide: BorderSide(
-      color: Colors.grey[200],
-    ),
+    borderSide: BorderSide.none,
   );
 
 
   SearchInputWidget({Key key,
   this.text="输入内容",
-  this.onChanged=null,
-  this.onSubmitted=null,
-  
+  this.maxLines=null,
+  this.maxCunt=null,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {  
   return
        Container(
-        // width: 300,
-        // margin: EdgeInsets.only(left:20),
         constraints: BoxConstraints(
           minHeight: 15.0,
         ),
         decoration: BoxDecoration(
-          // color: Colors.grey[200],
-          // borderRadius: BorderRadius.all(Radius.circular(40)
-          // )
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.all(Radius.circular(40)
+          )
         ),
         child: TextField(
           controller: _firendSearchController,
-          maxLines: null,
+          maxLines: maxLines,
+          
           keyboardType: TextInputType.multiline,
           autofocus: true,
           decoration: InputDecoration(
-            hintText:"搜索好友列表",
+            hintText:text,
             enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide.none,
             ),
@@ -55,7 +53,9 @@ class SearchInputWidget extends StatelessWidget {
             contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10)
           ),
           
-          
+          inputFormatters: [LengthLimitingTextInputFormatter(maxCunt)],
+
+    
         ),
       );
  
@@ -99,7 +99,8 @@ Widget _searchFriendDataWidget(){
                  disabledBorder: _outlineInputBorder,
                  focusedErrorBorder: _outlineInputBorder,
                 errorBorder: _outlineInputBorder,
-               )
+               ),
+                
               )
             )
           ],

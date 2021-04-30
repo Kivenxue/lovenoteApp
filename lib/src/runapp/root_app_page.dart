@@ -14,7 +14,7 @@ class _RootAPPState extends State<RootAPP> {
     return ScreenUtilInit(
         designSize: Size(750, 1334),
         builder: ()=>MaterialApp(
-            initialRoute: '/',
+            initialRoute: '/  ',
             onGenerateRoute: onGenerateRoute,
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
